@@ -1,16 +1,14 @@
 clear all
 close all
 
-net = feedforwardnet;
+net = feedforwardnet(10);
+net.trainFcn = "trainlm";
 
 images = dir("imagens\start\*\*.png");
-images_binary = zeros(length(images), 1);
 
 for i=1 : length(images)
-    disp(append(images(i).folder, "\", images(i).name));
-%     I = imread(append(images(i).folder, "\", images(i).name));
-%     images_binary(i) = imbinarize(I);
+    I = imread(append(images(i).folder, "\", images(i).name));
+    im = imresize(I,0.25);
+    BIN = imbinarize(im);
+    matriz{i} = BIN(:,:,1);
 end
-
-figure
-imshowpair(I,images_binary(4),'montage');
