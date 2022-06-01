@@ -5,11 +5,11 @@ size = length(directory);
 
 for i = 1 : length(directory)
     % Read image
-    img = imread(append(directory(i).folder, "\", directory(i).name));
+    img = imread(append(directory(i).folder, "/", directory(i).name));
     img = img(:,:,1);
     
     % Rezise image from 224px to 32px
-    img = imresize(img, [56, 56]);
+    img = imresize(img, [32, 32]);
     
     % Convert image in binary matrix
     img = imbinarize(img);
