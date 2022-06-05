@@ -1,2 +1,3 @@
-loadedNet = load("best_nn.mat");
-var = loadedNet.net.dimensions;
+a = ["Círculo" "Papagaio" "Paralelogramo" "Quadrado" "Trapézio" "Triângulo"];
+a = a.';
+disp(a(1));

@@ -9,6 +9,7 @@ switch(type)
         net = fitting;
 end
 
+net.userdata = type;
 net.layers{1}.transferFcn = transferFcn;
 net.trainFcn = trainFcn;
 net.divideFcn = divideFcn;

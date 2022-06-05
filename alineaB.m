@@ -1,4 +1,5 @@
 folder = "imagens/start/*/*.png";
+imagemTeste = "imagens/start/circle/circle-start-4.png";
 [input, tamanho] = process_images(folder);
 target = gen_target(tamanho);
 
@@ -60,5 +61,5 @@ for i=1 : nSim
     accuracyFinalTeste = accuracyFinalTeste + accuracy;
 end
 
-fprintf('\nMedia global final dos [Exemplos] depois de %i testes: %.3f\n', nSim, accuracyFinalExemplos/nSim);
-fprintf('Media global final dos [Testes] depois de %i testes: %.3f\n', nSim, accuracyFinalTeste/nSim);
+fprintf('\nMédia global final dos [Exemplos] depois de %i testes: %.3f\n', nSim, accuracyFinalExemplos/nSim);
+fprintf('Média global final dos [Testes] depois de %i testes: %.3f\n', nSim, accuracyFinalTeste/nSim);
