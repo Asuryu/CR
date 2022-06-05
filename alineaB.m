@@ -1,42 +1,49 @@
-folder = "imagens/train/*/*.png";
+folder = "imagens/start/*/*.png";
 [input, tamanho] = process_images(folder);
 target = gen_target(tamanho);
 
-net = feedforwardnet;
-
-net.layers{1}.transferFcn = "logsig";
-net.trainFcn = "trainlm";
-net.divideFcn = "dividerand";
-
-net.divideParam.trainRatio = 0.75;
-net.divideParam.valRatio = 0.15;
-net.divideParam.testRatio = 0.15;
-
-net.trainParam.epochs = 1000;
-
-[net, tr] = train(net, input, target);
-
+accuracyFinalTeste = 0;
+accuracyFinalExemplos = 0;
 nSim = 1;
 
-accuracyFinal = 0;
 for i=1 : nSim
+
+    net = feedforwardnet;
+
+    net.layers{1}.transferFcn = "logsig";
+    net.trainFcn = "trainlm";
+    net.divideFcn = "dividerand";
+
+    net.divideParam.trainRatio = 0.70;
+    net.divideParam.valRatio = 0.15;
+    net.divideParam.testRatio = 0.15;
+
+    net.trainParam.epochs = 1000;
+
+    [net, tr] = train(net, input, target);
+    save("best_nn.mat", "net");
+
+    
+    
+    
     out = sim(net, input);
     plotconfusion(target, out);
-    r = 0;
-    for j=1 : size(out, 2)
-        [a, b] = max(out(:,i));
-        [c, d] = max(target(:,i));
-        if(b == d) 
-            r = r + 1;
-        end
+    r=0;
+    for i=1:size(out,2)               % Para cada classificacao  
+      [a, b] = max(out(:,i));          %b guarda a linha onde encontrou valor mais alto da saida obtida
+      [c, d] = max(target(:,i));       %d guarda a linha onde encontrou valor mais alto da saida desejada
+      if b == d                       % se estao na mesma linha, a classificacao foi correta (incrementa 1)
+          r = r+1;
+      end
     end
     accuracy = r/size(out,2)*100;
     fprintf('Precisão total nos exemplos: %.3f\n', accuracy)
-    accuracyFinal = accuracyFinal + accuracy;
-end
+    %Soma para a média global
+    accuracyFinalExemplos = accuracyFinalExemplos + accuracy;
 
-accuracyFinalTeste = 0;
-for i=1 : nSim
+    
+    
+    
     TInput = input(:, tr.testInd);
     TTargets = target(:, tr.testInd);
     out = sim(net, TInput);
@@ -53,5 +60,5 @@ for i=1 : nSim
     accuracyFinalTeste = accuracyFinalTeste + accuracy;
 end
 
-fprintf('\nMedia global final dos [Exemplos] depois de %i testes: %.3f\n', nSim, accuracyFinal/nSim);
+fprintf('\nMedia global final dos [Exemplos] depois de %i testes: %.3f\n', nSim, accuracyFinalExemplos/nSim);
 fprintf('Media global final dos [Testes] depois de %i testes: %.3f\n', nSim, accuracyFinalTeste/nSim);
