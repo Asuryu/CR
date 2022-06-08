@@ -1,5 +1,4 @@
-folder = "imagens/start/*/*.png";
-imagemTeste = "imagens/start/circle/circle-start-4.png";
+folder = "imagens/train/*/*.png";
 [input, tamanho] = process_images(folder);
 target = gen_target(tamanho);
 
@@ -22,7 +21,7 @@ for i=1 : nSim
     net.trainParam.epochs = 1000;
 
     [net, tr] = train(net, input, target);
-    save("best_nn.mat", "net");
+    % save("best_nn.mat", "net");
 
     
     
@@ -30,16 +29,15 @@ for i=1 : nSim
     out = sim(net, input);
     plotconfusion(target, out);
     r=0;
-    for i=1:size(out,2)               % Para cada classificacao  
-      [a, b] = max(out(:,i));          %b guarda a linha onde encontrou valor mais alto da saida obtida
-      [c, d] = max(target(:,i));       %d guarda a linha onde encontrou valor mais alto da saida desejada
-      if b == d                       % se estao na mesma linha, a classificacao foi correta (incrementa 1)
+    for i=1:size(out,2)
+      [a, b] = max(out(:,i));
+      [c, d] = max(target(:,i));
+      if b == d
           r = r+1;
       end
     end
     accuracy = r/size(out,2)*100;
     fprintf('Precisão total nos exemplos: %.3f\n', accuracy)
-    %Soma para a média global
     accuracyFinalExemplos = accuracyFinalExemplos + accuracy;
 
     
