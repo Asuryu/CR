@@ -10,18 +10,19 @@ for i=1 : nSim
 
     net = feedforwardnet;
 
-    net.layers{1}.transferFcn = "logsig";
+    net.layers{1}.transferFcn = "tansig";
+    net.layers{2}.transferFcn = "purelin";
     net.trainFcn = "trainlm";
     net.divideFcn = "dividerand";
 
-    net.divideParam.trainRatio = 0.70;
-    net.divideParam.valRatio = 0.15;
-    net.divideParam.testRatio = 0.15;
+    net.divideParam.trainRatio = 0.95;
+    net.divideParam.valRatio = 0.025;
+    net.divideParam.testRatio = 0.025;
 
     net.trainParam.epochs = 1000;
 
     [net, tr] = train(net, input, target);
-    % save("best_nn.mat", "net");
+    save("best_nn.mat", "net");
 
     
     
