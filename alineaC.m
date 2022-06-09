@@ -7,9 +7,10 @@ nSim = 1;
 
 for i=1 : nSim
 
-    load("net.mat", "net");
-    %[net, tr] = train(net, input, target);
-    % save("best_nn.mat", "net");
+    % load("best_nn_b.mat", "net");
+    load("best_nn_c.mat", "net");
+    % [net, tr] = train(net, input, target);
+    %save("best_nn_c.mat", "net");
     
     out = sim(net, input);
     plotconfusion(target, out);
@@ -29,6 +30,12 @@ end
 
 fprintf('\nMédia global final dos [Exemplos] depois de %i testes: %.3f\n', nSim, accuracyFinalExemplos/nSim);
 
-% Resultado sem re-treinar a rede:                                  81.667%
-% Resultado a re-treinar a rede só com os exemplos da pasta "test": ??.???%
-% Resultado a re-treinar a rede com todas as imagens fornecidas:    ??.???%
+% Resultado sem re-treinar a rede:                                              70.000%
+
+% Resultado a re-treinar a rede só com os exemplos da pasta "start":            80.000%
+% Resultado a re-treinar a rede só com os exemplos da pasta "train":            98.333%
+% Resultado a re-treinar a rede só com os exemplos da pasta "test":             70.000%
+
+% Resultado a re-treinar a rede com todas as imagens fornecidas (start):        80.000%
+% Resultado a re-treinar a rede com todas as imagens fornecidas (train):        98.333%
+% Resultado a re-treinar a rede com todas as imagens fornecidas (test):         70.000%
